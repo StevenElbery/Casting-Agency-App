@@ -34,8 +34,6 @@ def retrieve_movies():
 
 #Get actors from casting_agency database
 
-
-
 @app.route('/actors')
 @requires_auth('get:actors')
 def retrieve_actors():
@@ -51,7 +49,6 @@ def retrieve_actors():
         })
   except:
     abort(422)
-
 
 #Delete movies from casting_agency database
 
@@ -92,6 +89,51 @@ def delete_actor(actor_id):
         'delete': actor_id
       })
 
+    except:
+      abort(422)
+
+# POST /movies - create a new row in the movies table
+
+@app.route('/movies')
+@requires_auth('post:movies')
+def create_movie():
+    body = request.get_json()
+    
+    new_title = body.get('title', None)
+    new_release_date = body.get('release_date', None)
+    search = body.get('search', None)
+  
+    try:
+      movie = Movie(title=new_title, release_date=new_release_date)
+      movie.insert()
+      
+      return jsonify({
+        'success': True,
+        'movies': movie
+        })
+    except:
+      abort(422)
+
+# POST /actors - create a new row in the movies table
+
+@app.route('/actors')
+@requires_auth('post:actors')
+def create_actor():
+    body = request.get_json()
+    
+    new_name = body.get('name', None)
+    new_age = body.get('age', None)
+    new_gender = body.get('gender', None)
+    search = body.get('search', None)
+  
+    try:
+      actor = Actor(name=new_name, age=new_age, gender=new_gender)
+      movie.insert()
+      
+      return jsonify({
+        'success': True,
+        'actors': actor
+        })
     except:
       abort(422)
 
