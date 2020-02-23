@@ -196,6 +196,42 @@ def update_actor(actor_id):
     except:
       abort(400)
 
+# Error Handlers - 400, 404, 422
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+      'success': False,
+      'error': 404,
+      'message': "Not Found"
+      }), 404
+  
+@app.errorhandler(422)
+def unprocessable(error):
+    return jsonify({
+      'success': False,
+      'error': 422,
+      'message': "Unable to process the contained instructions"
+      }), 422
+
+@app.errorhandler(400)
+def syntaxError(error):
+    return jsonify({
+      'success': False,
+      'error': 400,
+      'message': "Syntax error detected"
+      }), 400  
+      
+# Authenticatiom Error Handler
+
+@app.errorhandler(AuthError)
+def authError(error, status_code):
+  return jsonify({
+    'success': False,
+    'error': error,
+    'status_code': status_code
+    })
+
 
 if __name__ == '__main__':
     APP.run(host='0.0.0.0', port=8080, debug=True)
