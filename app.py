@@ -22,7 +22,7 @@ def retrieve_movies():
   try:
       movies = Movie.query.all()
 
-      if len(drinks) == 0:
+      if len(movies) == 0:
         abort(404)
 
       return jsonify({
@@ -114,7 +114,7 @@ def create_movie():
     except:
       abort(422)
 
-# POST /actors - create a new row in the movies table
+# POST /actors - create a new row in the actors table
 
 @app.route('/actors')
 @requires_auth('post:actors')
@@ -136,6 +136,66 @@ def create_actor():
         })
     except:
       abort(422)
+
+# PATCH /movies - update a row in the movies table
+
+@app.route('/movies/<int:movie_id>', methods=['PATCH'])
+def update_movie(movie_id):
+
+    body = request.get_json()
+
+    try:
+      movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+      if movie is None:
+        abort(404)
+
+      if 'title' in body:
+        movie.title = int(body.get('title'))
+     
+      if 'release_date' in body:
+        movie.release_date = int(body.get('release_date'))        
+
+      movie.update()
+
+      return jsonify({
+        'success': True,
+        'movies': movie
+      })
+      
+    except:
+      abort(400)
+
+# PATCH /actors - update a row in the actors table
+
+@app.route('/actors/<int:actor_id>', methods=['PATCH'])
+def update_actor(actor_id):
+
+    body = request.get_json()
+
+    try:
+      actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+      if actor is None:
+        abort(404)
+
+      if 'name' in body:
+        actor.name = int(body.get('name'))
+     
+      if 'age' in body:
+        actor.age = int(body.get('age'))
+     
+      if 'gender' in body:
+        actor.gender = int(body.get('gender'))
+       
+      actor.update()
+
+      return jsonify({
+        'success': True,
+        'actors': actor
+      })
+      
+    except:
+      abort(400)
+
 
 if __name__ == '__main__':
     APP.run(host='0.0.0.0', port=8080, debug=True)
