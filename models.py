@@ -68,7 +68,7 @@ class Actor(db.Model):
   def __init__(self, name, age, gender):
     self.name = name
     self.age = age
-    self.
+    self.gender = gender
 
   def insert(self):
     db.session.add(self)
@@ -84,6 +84,7 @@ class Actor(db.Model):
   def format(self):
     return {
       'id': self.id,
-      'title': self.title,
-      'release date': self.release_date
+      'name': self.title,
+      'age': self.age,
+      'gender': self.gender 
     }
