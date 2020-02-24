@@ -25,9 +25,9 @@ db_drop_and_create_all()
     can be used to initialize a clean database
 '''
 
-def db_drop_and_create_all():
-    db.drop_all()
-    db.create_all()  
+#def db_drop_and_create_all():
+ #   db.drop_all()
+  #  db.create_all()  
 
 '''
 Movie
@@ -37,7 +37,7 @@ class Movie(db.Model):
 
   id = Column(Integer, primary_key=True, nullable=False, unique=True)
   title = Column(String(80), nullable=False)
-  release_date = Column(Date, nullable=False)
+  release_date = Column(String(20), nullable=False)
 
 
   def __init__(self, title, release_date):
