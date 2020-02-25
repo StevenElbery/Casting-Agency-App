@@ -4,7 +4,7 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from app import create_app
-from database.models import setup_db, Movie, Actor
+from models import setup_db, Movie, Actor
 
 load_dotenv()
 

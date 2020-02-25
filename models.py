@@ -25,9 +25,9 @@ db_drop_and_create_all()
     can be used to initialize a clean database
 '''
 
-#def db_drop_and_create_all():
- #   db.drop_all()
-  #  db.create_all()  
+def db_drop_and_create_all():
+ db.drop_all()
+ db.create_all()  
 
 '''
 Movie
