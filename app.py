@@ -9,8 +9,9 @@ def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
   setup_db(app)
-  CORS(app)
-
+  # Cors setup and permit '*' for origins
+  CORS(app, resources={r"/api/*": {"origins": "*"}})
+  
   @app.after_request
   def after_request(response):
     response.headers.add('Access-Control-Allow-Headers','Content-Type,Authorization,true')
@@ -44,7 +45,7 @@ def create_app(test_config=None):
 
 #Get actors from casting_agency database
 
-  @app.route('/actors')
+  @app.route('/api/actors')
   @requires_auth('get:actors')
   def retrieve_actors(jwt):
     try:
@@ -63,7 +64,7 @@ def create_app(test_config=None):
 
 #Delete movies from casting_agency database
 
-  @app.route('/movies/<int:movie_id>', methods=['DELETE'])
+  @app.route('/api/movies/<int:movie_id>', methods=['DELETE'])
   @requires_auth('delete:movies')
   def delete_movie(jwt,movie_id):
     try:
@@ -84,7 +85,7 @@ def create_app(test_config=None):
 
 #Delete actors from casting_agency database
 
-  @app.route('/actors/<int:actor_id>', methods=['DELETE'])
+  @app.route('/api/actors/<int:actor_id>', methods=['DELETE'])
   @requires_auth('delete:actors')
   def delete_actor(jwt,actor_id):
     try:
@@ -105,7 +106,7 @@ def create_app(test_config=None):
 
 # POST /movies - create a new row in the movies table
 
-  @app.route('/movies')
+  @app.route('/api/movies')
   @requires_auth('post:movies')
   def create_movie(jwt):
     body = request.get_json()
@@ -127,7 +128,7 @@ def create_app(test_config=None):
 
 # POST /actors - create a new row in the actors table
 
-  @app.route('/actors')
+  @app.route('/api/actors')
   @requires_auth('post:actors')
   def create_actor(jwt):
     body = request.get_json()
